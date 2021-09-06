@@ -1,0 +1,12 @@
+﻿  main.cpp
+C:\Users\samsung\OneDrive\바탕 화면\Forest_Of_Hong-Ik\Forest_Of_Hong-Ik\Api.hpp(88,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\samsung\OneDrive\바탕 화면\Forest_Of_Hong-Ik\Forest_Of_Hong-Ik\Api.hpp(101,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\samsung\OneDrive\바탕 화면\Forest_Of_Hong-Ik\Forest_Of_Hong-Ik\PointerListScreen.hpp(70,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\samsung\OneDrive\바탕 화면\Forest_Of_Hong-Ik\Forest_Of_Hong-Ik\PointerListScreen.hpp(84,31): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\samsung\OneDrive\바탕 화면\Forest_Of_Hong-Ik\Forest_Of_Hong-Ik\GetGameMapManager.hpp(88,50): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\samsung\OneDrive\바탕 화면\Forest_Of_Hong-Ik\Forest_Of_Hong-Ik\GetGameMapManager.hpp(249,48): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  StartScreen.hpp
+C:\Users\samsung\OneDrive\바탕 화면\Forest_Of_Hong-Ik\Forest_Of_Hong-Ik\Api.hpp(88,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\samsung\OneDrive\바탕 화면\Forest_Of_Hong-Ik\Forest_Of_Hong-Ik\Api.hpp(101,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  코드를 생성하고 있습니다...
+  Forest_Of_Hong-Ik.vcxproj -> C:\Users\samsung\OneDrive\바탕 화면\Forest_Of_Hong-Ik\Debug\Forest_Of_Hong-Ik.exe
