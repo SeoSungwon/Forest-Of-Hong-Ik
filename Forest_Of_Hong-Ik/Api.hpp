@@ -1,6 +1,6 @@
 
 #pragma once
-// djasdoif
+
 #include <iostream>
 #include <Windows.h>
 #include <string>
@@ -13,9 +13,9 @@
 using namespace std;
 
 constexpr auto number_of_korean_vowel = 21;
-const array<string, number_of_korean_vowel> korean_vowel = { "¤¿", "¤À", "¤Á", "¤Â", "¤Ã", "¤Ä", "¤Å", "¤Æ", "¤Ç", "¤È", "¤É", "¤Ê", "¤Ë", "¤Ì", "¤Í", "¤Î", "¤Ï", "¤Ð", "¤Ñ", "¤Ò", "¤Ó" };
+const array<string, number_of_korean_vowel> korean_vowel = { "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½" };
 constexpr auto number_of_korean_consonant = 14;
-const array<string, number_of_korean_consonant> korean_consonant = { "¤¡", "¤¤", "¤§", "¤©", "¤±", "¤²", "¤µ", "¤·", "¤¸", "¤º", "¤»", "¤¼", "¤½", "¤¾" };
+const array<string, number_of_korean_consonant> korean_consonant = { "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½" };
 
 enum Color : int {
 	BLACK, BLUE, GREEN, CYAN,
@@ -25,7 +25,7 @@ enum Color : int {
 	YELLOW, WHITE
 };
 
-// ÄÜ¼Ö Å©±â Á¤ÇØÁÜ
+// ï¿½Ü¼ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 static void
 ConsoleSize(int console_x, int console_y) {
 	string command = "mode con: cols=" + to_string(console_x) + " lines=" + to_string(console_y);
@@ -33,7 +33,7 @@ ConsoleSize(int console_x, int console_y) {
 	system(command.c_str());
 }
 
-// ÄÜ¼Ö Á¦¸ñ Á¤ÇØÁÜ
+// ï¿½Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 static void
 ConsoleTitle(string Title = "NULL") {
 	string command = "title " + Title;
@@ -41,7 +41,7 @@ ConsoleTitle(string Title = "NULL") {
 	system(command.c_str());
 }
 
-// ÄÜ¼Ö Ä¿¼­ ÀÌµ¿
+// ï¿½Ü¼ï¿½ Ä¿ï¿½ï¿½ ï¿½Ìµï¿½
 static void
 Gotoxy(int x, int y) {
 	COORD pos = {};
@@ -50,19 +50,19 @@ Gotoxy(int x, int y) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-// Ä¿¼­ º¸ÀÓ ¾Èº¸ÀÓ
+// Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Èºï¿½ï¿½ï¿½
 static void
 SetCursor(bool cursor_view = true) {
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 
-	ConsoleCursor.bVisible = cursor_view; // true º¸ÀÓ, false ¾Èº¸ÀÓ
+	ConsoleCursor.bVisible = cursor_view; // true ï¿½ï¿½ï¿½ï¿½, false ï¿½Èºï¿½ï¿½ï¿½
 
-	ConsoleCursor.dwSize = 1; // Ä¿¼­»çÀÌÁî
+	ConsoleCursor.dwSize = 1; // Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &ConsoleCursor); // ¼³Á¤
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &ConsoleCursor); // ï¿½ï¿½ï¿½ï¿½
 }
 
-// »ö»ó º¯°æ
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 static void
 ConsoleColor(Color forground, Color background = BLACK) {
 	int code = forground + background * 16;
@@ -70,19 +70,19 @@ ConsoleColor(Color forground, Color background = BLACK) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), code);
 }
 
-// ¿ø·¡ÀÇ ±ÛÀÚ »öÀ¸·Î º¯°æ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 static void
 ConsoleColorOriginal() {
 	ConsoleColor(LIGHTGRAY, BLACK);
 }
 
-// ÄÜ¼Ö¿¡ Ãâ·ÂµÈ ³»¿ëµéÀ» Áö¿ò
+// ï¿½Ü¼Ö¿ï¿½ ï¿½ï¿½Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 static void
 ConsoleClear() {
 	system("cls");
 }
 
-// »ö±òÃâ·Â = ¼øÂ÷ÀûÀ¸·Î
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 static void
 ColorPrint(const string title, const int title_x, const int title_y, const Color color) {
 	for (int i = 0; i < title.length(); i++) {
@@ -95,7 +95,7 @@ ColorPrint(const string title, const int title_x, const int title_y, const Color
 	ConsoleColorOriginal();
 }
 
-// »ö±òÃâ·Â -> »ö±ò ¿ø·¡´ë·Î = ¼øÂ÷ÀûÀ¸·Î
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 static void
 ColorAndDownPrint(const string title, const int title_x, const int title_y, const Color color) {
 	for (int i = 0; i < title.length(); i++) {
