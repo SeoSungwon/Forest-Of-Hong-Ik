@@ -64,7 +64,7 @@ void GameScreen::Run() {
             switch (this->gameMainMap->gameMapManager->Check_for_buildings_near_player()) {
             case MAP_TYPE::PLAYER_HOUSE:
                 //TODO : 플레이어가 집에 들어가서 뭘 할 수 있는 서비스를 만들어라.
-                
+                System_Message::System_coming_soon_service();
                 break;
             default: // 주변에 들어갈 건물이 없을 경우
                 System_Message::System_There_is_not_building_near_player();
