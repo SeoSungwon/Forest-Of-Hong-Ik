@@ -12,8 +12,6 @@ enum class ctrlToMovePlayerReturnValue {
 
 class Player : public PlayerInformation {
 private: // private class membar
-    int mapTravelDistance_X;
-    int mapTravelDistance_Y;
    
 private: // private functions
     // Ctrl to move
@@ -29,6 +27,9 @@ private: // private functions
     void drawPlayer(GameMap* specific_map, MAP_TYPE player_eType);
 
 public:
+    int mapTravelDistance_X;
+    int mapTravelDistance_Y;
+
     Player() {
         this->mapTravelDistance_X = 0;
         this->mapTravelDistance_Y = 0;

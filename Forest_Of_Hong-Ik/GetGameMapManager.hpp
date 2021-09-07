@@ -19,6 +19,8 @@ class GetGameMapManager {
 private:
 	// text파일 정보를 배열에 int형으로 집어 넣는다.
 	int Map[TEXT_MAP_FILE_SIZE_X][TEXT_MAP_FILE_SIZE_Y];
+
+	std::string file_name;
 public:
 	int map_top_left_corner_x;
 	int map_top_left_corner_y;
@@ -39,6 +41,10 @@ public:
 
 	// 맵 출력 함수
 	void printGameMap(const int start_x, const int end_x, const int start_y, const int end_y);
+
+	// 맵 저장 함수
+	// true : 다음 코드를 사용할 수 있다. / false : 다음 코드를 사용할 수 없다.
+	bool saveGameMap();
 	
 	// 맵 오브젝트 바꾸기
 	void changeMapType(const int object_x, const int object_y, const MAP_TYPE changing_object);
@@ -56,8 +62,10 @@ GetGameMapManager::GetGameMapManager(std::string file_name,
 	const int map_top_left_corner_x, const int map_top_left_corner_y,
 	const int game_map_view_size_x, const int game_map_view_size_y) {
 
+	this->file_name = file_name;
+
 	std::ifstream readMapFile;
-	readMapFile.open(file_name);
+	readMapFile.open(this->file_name, ios::in); // 파일 읽기로 연다.
 
 	// 배열 초기화(공기로 채우기)
 	for (int array_y = 0; array_y < TEXT_MAP_FILE_SIZE_Y; array_y++) {
@@ -116,6 +124,26 @@ GetGameMapManager::GetGameMapManager(std::string file_name,
 			mapLine++;
 		}
 	}
+
+	readMapFile.close();
+}
+
+bool GetGameMapManager::saveGameMap() {
+	std::ofstream writeMapFile;
+	writeMapFile.open(this->file_name, ios::out); // 파일 쓰기로 열기
+
+	if (writeMapFile.fail()) {
+		return false;
+	}
+
+	for (int i = 0; i < TEXT_MAP_FILE_SIZE_Y; i++) {
+		for (int j = 0; j < TEXT_MAP_FILE_SIZE_Y; j++) {
+			writeMapFile << this->Map[i][j];
+		}
+		writeMapFile << "\n";
+	}
+	
+	return true;
 }
 
 void GetGameMapManager::printGameMap(const int start_x, const int end_x, const int start_y, const int end_y) {

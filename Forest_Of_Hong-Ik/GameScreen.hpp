@@ -63,7 +63,10 @@ void GameScreen::Run() {
             // 근처에 들어갈 수 있는 건물이 있는지 검사
             switch (this->gameMainMap->gameMapManager->Check_for_buildings_near_player()) {
             case MAP_TYPE::PLAYER_HOUSE:
-                //TODO : 플레이어가 집에 들어가서 뭘 할 수 있는 서비스를 만들어라.
+                // TODO : 플레이어가 집에 들어가서 뭘 할 수 있는 서비스를 만들어라.
+                if (this->gameMainMap->gameMapManager->saveGameMap() == false) {
+                    exit(1);
+                }
                 System_Message::System_coming_soon_service();
                 break;
             default: // 주변에 들어갈 건물이 없을 경우
@@ -85,5 +88,8 @@ void GameScreen::Run() {
 
         Gotoxy(85, 2);
         std::cout << this->gameMainMap->gameMapManager->playerPointer->getX() - 18 << " : " << this->gameMainMap->gameMapManager->playerPointer->getY() - 6 << "    ";
+
+        Gotoxy(85, 4);
+        std::cout << this->player->mapTravelDistance_X << " : " << this->player->mapTravelDistance_Y << "   ";
     }
 }
