@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 
 #include <iostream>
@@ -25,7 +25,7 @@ enum Color : int {
 	YELLOW, WHITE
 };
 
-// �ܼ� ũ�� ������
+// set console size
 static void
 ConsoleSize(int console_x, int console_y) {
 	string command = "mode con: cols=" + to_string(console_x) + " lines=" + to_string(console_y);
@@ -33,7 +33,7 @@ ConsoleSize(int console_x, int console_y) {
 	system(command.c_str());
 }
 
-// �ܼ� ���� ������
+// set console title
 static void
 ConsoleTitle(string Title = "NULL") {
 	string command = "title " + Title;
@@ -41,7 +41,7 @@ ConsoleTitle(string Title = "NULL") {
 	system(command.c_str());
 }
 
-// �ܼ� Ŀ�� �̵�
+// set cursor position
 static void
 Gotoxy(int x, int y) {
 	COORD pos = {};
@@ -50,19 +50,19 @@ Gotoxy(int x, int y) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-// Ŀ�� ���� �Ⱥ���
+// true : visible / false : invisible
 static void
 SetCursor(bool cursor_view = true) {
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 
-	ConsoleCursor.bVisible = cursor_view; // true ����, false �Ⱥ���
+	ConsoleCursor.bVisible = cursor_view;
 
-	ConsoleCursor.dwSize = 1; // Ŀ��������
+	ConsoleCursor.dwSize = 1;
 
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &ConsoleCursor); // ����
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &ConsoleCursor); 
 }
 
-// ���� ����
+// console print font color
 static void
 ConsoleColor(Color forground, Color background = BLACK) {
 	int code = forground + background * 16;
@@ -70,19 +70,19 @@ ConsoleColor(Color forground, Color background = BLACK) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), code);
 }
 
-// ������ ���� ������ ����
+// console color original
 static void
 ConsoleColorOriginal() {
 	ConsoleColor(LIGHTGRAY, BLACK);
 }
 
-// �ֿܼ� ��µ� ������� ����
+// system "cls"
 static void
 ConsoleClear() {
 	system("cls");
 }
 
-// ������� = ����������
+// Sequentially outputting a string in a specific color
 static void
 ColorPrint(const string title, const int title_x, const int title_y, const Color color) {
 	for (int i = 0; i < title.length(); i++) {
@@ -95,7 +95,8 @@ ColorPrint(const string title, const int title_x, const int title_y, const Color
 	ConsoleColorOriginal();
 }
 
-// ������� -> ���� ������� = ����������
+// specific_color1 print -> specific_color2 print
+// it is used by printing first screen title
 static void
 ColorAndDownPrint(const string title, const int title_x, const int title_y, const Color color) {
 	for (int i = 0; i < title.length(); i++) {
