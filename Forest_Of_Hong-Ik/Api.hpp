@@ -17,6 +17,7 @@ const array<string, number_of_korean_vowel> korean_vowel = { "��", "��",
 constexpr auto number_of_korean_consonant = 14;
 const array<string, number_of_korean_consonant> korean_consonant = { "��", "��", "��", "��", "��", "��", "��", "��", "��", "��", "��", "��", "��", "��" };
 
+// 앙기모륑
 enum Color : int {
 	BLACK, BLUE, GREEN, CYAN,
 	RED, PURPLE, BROWN, LIGHTGRAY,
