@@ -31,6 +31,8 @@ public:
 	Pointer* playerPointer;
 	Pointer* playerHousePointer;
 
+	// TODO : 맵 데이터를 파일에 집어넣어서 사용하는 것을 만들어라
+
 	GetGameMapManager(std::string file_name, 
 		const int map_top_left_corner_x, const int map_top_left_corner_y,
 		const int game_map_view_size_x, const int game_map_view_size_y);
