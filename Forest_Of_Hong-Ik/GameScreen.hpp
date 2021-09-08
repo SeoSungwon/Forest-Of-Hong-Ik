@@ -63,10 +63,11 @@ void GameScreen::Run() {
             // 근처에 들어갈 수 있는 건물이 있는지 검사
             switch (this->gameMainMap->gameMapManager->Check_for_buildings_near_player()) {
             case MAP_TYPE::PLAYER_HOUSE:
-                // TODO : 플레이어가 집에 들어가서 뭘 할 수 있는 서비스를 만들어라.
-                if (this->gameMainMap->gameMapManager->saveGameMap() == false) {
+                // 맵 저장하고 다른 맵으로 이동
+                if (this->gameMainMap->gameMapManager->saveGameMap() == false
+                    || this->player->saveClassMemberRelatedToMap(this->gameMainMap) == false) {
                     exit(1);
-                }
+                } // TODO : 여기서부터 할 예정
                 System_Message::System_coming_soon_service();
                 break;
             default: // 주변에 들어갈 건물이 없을 경우

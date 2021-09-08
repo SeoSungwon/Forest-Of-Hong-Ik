@@ -21,9 +21,6 @@ private: // private functions
     // direction : 1 -> UP / 2 -> DOWN / 3 -> LEFT / 4 -> RIGHT
     bool Checking_final(const int direction, const int append_x, const int append_y, GameMap* specific_map, MAP_TYPE eType);
 
-    // 맵 관련 클래스 멤버 텍스트 파일에 저장
-    bool saveClassMemberRelatedToMap(GameMap *specific_map);
-
     // 플레이어 지우고 그리기
     void erasePlayer(GameMap* specific_map);
     void drawPlayer(GameMap* specific_map, MAP_TYPE player_eType);
@@ -36,6 +33,10 @@ public:
         this->mapTravelDistance_X = 0;
         this->mapTravelDistance_Y = 0;
     }
+
+    // 맵 관련 클래스 멤버 텍스트 파일에 저장
+    bool saveClassMemberRelatedToMap(GameMap* specific_map);
+
     // return : true -> continue / false -> nothing
     CT_RETURN_VALUE ctrlToMovePlayer(GameMap *specific_map);
 
@@ -81,8 +82,24 @@ bool Player::Checking_final(const int direction, const int append_x, const int a
     return true;
 }
 
-bool Player::saveClassMemberRelatedToMap(GameMap* specific_map) {
+bool Player::saveClassMemberRelatedToMap(GameMap *specific_map) {
+    // 맵 관련 클래스 멤버를 텍스트 파일에 저장한다.
 
+    // 파일 쓰기로 열기
+    ofstream write_specifc_map_data_file(specific_map->gameMapManager->file_data_name, ios::out);
+
+    if (write_specifc_map_data_file.is_open()) {
+        // 데이터 쓰기
+        // 1 : mapTravelDistance_X
+        // 2 : mapTravelDistance_Y
+
+        write_specifc_map_data_file << to_string(this->mapTravelDistance_X) << "\n";
+        write_specifc_map_data_file << to_string(this->mapTravelDistance_Y);
+
+        return true;
+    }
+    else 
+        return false;
 }
 
 void Player::erasePlayer(GameMap *specific_map) {

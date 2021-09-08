@@ -19,7 +19,5 @@ public:
         gameMapManager = new GetGameMapManager(gameMapTextFileName, gameMapDataTextFileName,
             map_top_left_corner_x, map_top_left_corner_y,
             game_map_view_size_x, game_map_view_size_y);
-
-        
     } ~GameMainMap() { delete gameMapManager; }
 };

@@ -19,10 +19,10 @@ class GetGameMapManager {
 private:
 	// text파일 정보를 배열에 int형으로 집어 넣는다.
 	int Map[TEXT_MAP_FILE_SIZE_X][TEXT_MAP_FILE_SIZE_Y];
-
+public:
 	std::string file_name;
 	std::string file_data_name;
-public:
+
 	int map_top_left_corner_x;
 	int map_top_left_corner_y;
 
@@ -137,10 +137,6 @@ bool GetGameMapManager::saveGameMap() {
 	std::ofstream writeMapFile;
 	writeMapFile.open(this->file_name, ios::out); // 파일 쓰기로 열기
 
-	// 맵의 데이터를 저장한다.
-	std::ofstream writeMapDataFile;
-	writeMapDataFile.open(this->file_data_name, ios::out); // 파일 쓰기로 열기
-
 	if (writeMapFile.fail()) {
 		return false;
 	}
@@ -153,7 +149,6 @@ bool GetGameMapManager::saveGameMap() {
 	}
 
 	writeMapFile.close();
-	writeMapDataFile.close();
 	
 	return true;
 }
