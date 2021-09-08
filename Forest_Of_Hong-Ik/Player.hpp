@@ -21,6 +21,8 @@ private: // private functions
     // direction : 1 -> UP / 2 -> DOWN / 3 -> LEFT / 4 -> RIGHT
     bool Checking_final(const int direction, const int append_x, const int append_y, GameMap* specific_map, MAP_TYPE eType);
 
+    // 맵 관련 클래스 멤버 텍스트 파일에 저장
+    bool saveClassMemberRelatedToMap(GameMap *specific_map);
 
     // 플레이어 지우고 그리기
     void erasePlayer(GameMap* specific_map);
@@ -77,6 +79,10 @@ bool Player::Checking_final(const int direction, const int append_x, const int a
     this->printMap(specific_map);
 
     return true;
+}
+
+bool Player::saveClassMemberRelatedToMap(GameMap* specific_map) {
+
 }
 
 void Player::erasePlayer(GameMap *specific_map) {

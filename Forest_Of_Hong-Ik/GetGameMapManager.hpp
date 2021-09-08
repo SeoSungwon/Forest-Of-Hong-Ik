@@ -21,6 +21,7 @@ private:
 	int Map[TEXT_MAP_FILE_SIZE_X][TEXT_MAP_FILE_SIZE_Y];
 
 	std::string file_name;
+	std::string file_data_name;
 public:
 	int map_top_left_corner_x;
 	int map_top_left_corner_y;
@@ -33,7 +34,7 @@ public:
 
 	// TODO : 맵 데이터를 파일에 집어넣어서 사용하는 것을 만들어라
 
-	GetGameMapManager(std::string file_name, 
+	GetGameMapManager(std::string file_name, std::string file_data_name,
 		const int map_top_left_corner_x, const int map_top_left_corner_y,
 		const int game_map_view_size_x, const int game_map_view_size_y);
 	~GetGameMapManager() {
@@ -60,11 +61,12 @@ public:
 	MAP_TYPE Check_for_buildings_near_player();
 };
 
-GetGameMapManager::GetGameMapManager(std::string file_name, 
+GetGameMapManager::GetGameMapManager(std::string file_name, std::string file_data_name,
 	const int map_top_left_corner_x, const int map_top_left_corner_y,
 	const int game_map_view_size_x, const int game_map_view_size_y) {
 
 	this->file_name = file_name;
+	this->file_data_name = file_data_name;
 
 	std::ifstream readMapFile;
 	readMapFile.open(this->file_name, ios::in); // 파일 읽기로 연다.
@@ -131,8 +133,13 @@ GetGameMapManager::GetGameMapManager(std::string file_name,
 }
 
 bool GetGameMapManager::saveGameMap() {
+	// 맵을 해당 텍스트 문서에 새로 저장한다.
 	std::ofstream writeMapFile;
 	writeMapFile.open(this->file_name, ios::out); // 파일 쓰기로 열기
+
+	// 맵의 데이터를 저장한다.
+	std::ofstream writeMapDataFile;
+	writeMapDataFile.open(this->file_data_name, ios::out); // 파일 쓰기로 열기
 
 	if (writeMapFile.fail()) {
 		return false;
@@ -144,6 +151,9 @@ bool GetGameMapManager::saveGameMap() {
 		}
 		writeMapFile << "\n";
 	}
+
+	writeMapFile.close();
+	writeMapDataFile.close();
 	
 	return true;
 }
