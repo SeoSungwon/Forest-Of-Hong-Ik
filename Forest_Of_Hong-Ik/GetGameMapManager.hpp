@@ -19,6 +19,10 @@ class GetGameMapManager {
 private:
 	// text파일 정보를 배열에 int형으로 집어 넣는다.
 	int Map[TEXT_MAP_FILE_SIZE_X][TEXT_MAP_FILE_SIZE_Y];
+
+	// 맵 움직이는 변수
+	int mapTravelDistance_X;
+	int mapTravelDistance_Y;
 public:
 	std::string file_name;
 	std::string file_data_name;
@@ -31,8 +35,6 @@ public:
 
 	Pointer* playerPointer;
 	Pointer* playerHousePointer;
-
-	// TODO : 맵 데이터를 파일에 집어넣어서 사용하는 것을 만들어라
 
 	GetGameMapManager(std::string file_name, std::string file_data_name,
 		const int map_top_left_corner_x, const int map_top_left_corner_y,
@@ -47,10 +49,17 @@ public:
 
 	// 맵 저장 함수
 	// true : 다음 코드를 사용할 수 있다. / false : 다음 코드를 사용할 수 없다.
-	bool saveGameMap();
+	bool saveGameMapAndData();
 	
 	// 맵 오브젝트 바꾸기
 	void changeMapType(const int object_x, const int object_y, const MAP_TYPE changing_object);
+
+	// 맵 움직임에 대한 멤버 클래스 더하거나 빼는 함수
+	void append_mapTravelDistance_X(int append_x);
+	void append_mapTravelDistance_Y(int append_y);
+
+	int get_mapTravelDistance_X();
+	int get_mapTravelDistance_Y();
 
 	/*      플레이어 부딪힘 확인      */
 	// 1 : VK_UP / 2 : VK_DOWN / 3 : VK_LEFT / 4 : VK_RIGHT
@@ -68,9 +77,6 @@ GetGameMapManager::GetGameMapManager(std::string file_name, std::string file_dat
 	this->file_name = file_name;
 	this->file_data_name = file_data_name;
 
-	std::ifstream readMapFile;
-	readMapFile.open(this->file_name, ios::in); // 파일 읽기로 연다.
-
 	// 배열 초기화(공기로 채우기)
 	for (int array_y = 0; array_y < TEXT_MAP_FILE_SIZE_Y; array_y++) {
 		for (int array_x = 0; array_x < TEXT_MAP_FILE_SIZE_X; array_x++) {
@@ -81,7 +87,7 @@ GetGameMapManager::GetGameMapManager(std::string file_name, std::string file_dat
 	// 클래스 포인터 초기화
 	this->playerPointer =      NULL;
 	this->playerHousePointer = NULL;
-
+	
 	// 변수 집어 넣기
 	this->map_top_left_corner_x = map_top_left_corner_x;
 	this->map_top_left_corner_y = map_top_left_corner_y;
@@ -89,11 +95,35 @@ GetGameMapManager::GetGameMapManager(std::string file_name, std::string file_dat
 	this->game_map_view_size_x = game_map_view_size_x;
 	this->game_map_view_size_y = game_map_view_size_y;
 
+	// 맵 움직이는 변수에 집어넣기
+	std::ifstream readMapDataFile;
+	readMapDataFile.open(this->file_data_name);
+
+	if (readMapDataFile.is_open()) {
+		std::string str_array[2] = { };
+		int array_number = 0;
+
+		while (readMapDataFile.eof() == false) {
+			getline(readMapDataFile, str_array[array_number]);
+			array_number++;
+		}
+
+		this->mapTravelDistance_X = atoi(str_array[0].c_str());
+		this->mapTravelDistance_Y = atoi(str_array[1].c_str());
+	}
+	else {
+		this->mapTravelDistance_X = 0;
+		this->mapTravelDistance_Y = 0;
+	}
+
+	std::ifstream readMapFile;
+	readMapFile.open(this->file_name, ios::in); // 파일 읽기로 연다.
+
 	// 한 줄 씩 읽어 내고 mapLine에 1를 더하면서 다음 줄을 읽어낸다.
 	int mapLine = 0;
 
 	if (readMapFile.is_open()) {
-		while (!readMapFile.eof()) {
+		while (readMapFile.eof() == false) {
 			std::string str;
 			std::getline(readMapFile, str);
 
@@ -132,25 +162,63 @@ GetGameMapManager::GetGameMapManager(std::string file_name, std::string file_dat
 	readMapFile.close();
 }
 
-bool GetGameMapManager::saveGameMap() {
-	// 맵을 해당 텍스트 문서에 새로 저장한다.
-	std::ofstream writeMapFile;
-	writeMapFile.open(this->file_name, ios::out); // 파일 쓰기로 열기
+bool GetGameMapManager::saveGameMapAndData() {
+	// 맵 관련 클래스 멤버를 텍스트 파일에 저장한다.
+	// 파일 쓰기로 열기
+	ofstream writeMapDataFile;
+	writeMapDataFile.open(this->file_data_name);
 
-	if (writeMapFile.fail()) {
+	if (writeMapDataFile.is_open()) {
+		// 데이터 쓰기
+		// 1 : mapTravelDistance_X
+		// 2 : mapTravelDistance_Y
+
+		writeMapDataFile << to_string(this->mapTravelDistance_X) << "\n";
+		writeMapDataFile << to_string(this->mapTravelDistance_Y);
+	}
+	else {
+		writeMapDataFile.close();
 		return false;
 	}
 
-	for (int i = 0; i < TEXT_MAP_FILE_SIZE_Y; i++) {
-		for (int j = 0; j < TEXT_MAP_FILE_SIZE_Y; j++) {
-			writeMapFile << this->Map[i][j];
+	writeMapDataFile.close();
+
+	// 맵을 해당 텍스트 문서에 새로 저장한다.
+	std::ofstream writeMapFile;
+	writeMapFile.open(this->file_name); // 파일 쓰기로 열기
+
+	if (writeMapFile.is_open()) {
+		for (int i = 0; i < TEXT_MAP_FILE_SIZE_Y; i++) {
+			for (int j = 0; j < TEXT_MAP_FILE_SIZE_Y; j++) {
+				writeMapFile << this->Map[i][j];
+			}
+			writeMapFile << "\n";
 		}
-		writeMapFile << "\n";
+	}
+	else {
+		writeMapFile.close();
+		return false;
 	}
 
 	writeMapFile.close();
 	
 	return true;
+}
+
+void GetGameMapManager::append_mapTravelDistance_X(int append_x) {
+	this->mapTravelDistance_X += append_x;
+}
+
+void GetGameMapManager::append_mapTravelDistance_Y(int append_y) {
+	this->mapTravelDistance_Y += append_y;
+}
+
+int GetGameMapManager::get_mapTravelDistance_X() {
+	return this->mapTravelDistance_X;
+}
+
+int GetGameMapManager::get_mapTravelDistance_Y() {
+	return this->mapTravelDistance_Y;
 }
 
 void GetGameMapManager::printGameMap(const int start_x, const int end_x, const int start_y, const int end_y) {
@@ -226,11 +294,11 @@ bool GetGameMapManager::Check_player_hits_obstacle(const int direction) {
 			return true;
 		}
 		// 농사 가능한 밭을 갈려고(짓밟을려고) 할 때 지나갈 수 있으며(true 반환) "그 땅은 일반 땅으로 바꾼다".
-		else if (mapObject == MAP_TYPE::ABLE_FARMING_LAND) {
+		/*else if (mapObject == MAP_TYPE::ABLE_FARMING_LAND) {
 			this->Map[this->playerPointer->getY() + add_y][this->playerPointer->getX() + add_x]
 				= MAP_TYPE::ABLE_FARMING_LAND;
 			return true;
-		}
+		}*/
 		// 그 이외의 것은 못 지나간다(false반환)
 		else {
 			return false;

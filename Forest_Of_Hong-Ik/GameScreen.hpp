@@ -50,12 +50,13 @@ void GameScreen::Run() {
     this->gameMainMap->gameMapManager->printGameMap(
         0, this->gameMainMap->gameMapManager->game_map_view_size_x, 0, this->gameMainMap->gameMapManager->game_map_view_size_y
     );
+
     while (true) {
         // 플레이어 이동
-        CT_RETURN_VALUE return_value = this->player->ctrlToMovePlayer(this->gameMainMap);
+        CT_RETURN_VALUE return_value_for_gameMainMap = this->player->ctrlToMovePlayer(this->gameMainMap);
         
-        if (return_value == CT_RETURN_VALUE::R_CONTINUE) continue;
-        else if (return_value == CT_RETURN_VALUE::R_EXIT) break;
+        if (return_value_for_gameMainMap == CT_RETURN_VALUE::R_CONTINUE) continue;
+        else if (return_value_for_gameMainMap == CT_RETURN_VALUE::R_EXIT) break;
 
         // 구조물에 들어갈 수 있는 로직 만들기
         constexpr auto ENTER_BUILDING_KEY = VK_CONTROL;
@@ -63,11 +64,15 @@ void GameScreen::Run() {
             // 근처에 들어갈 수 있는 건물이 있는지 검사
             switch (this->gameMainMap->gameMapManager->Check_for_buildings_near_player()) {
             case MAP_TYPE::PLAYER_HOUSE:
-                // 맵 저장하고 다른 맵으로 이동
-                if (this->gameMainMap->gameMapManager->saveGameMap() == false
-                    || this->player->saveClassMemberRelatedToMap(this->gameMainMap) == false) {
+                // 맵 저장하고 다른 맵(집)으로 이동
+                if (this->gameMainMap->gameMapManager->saveGameMapAndData() == false) {
                     exit(1);
-                } // TODO : 여기서부터 할 예정
+                }
+                // 플레이어는 움직이는 로직을 담당하므로 재정의 할 필요가 없다.
+                // 플레이어에 대한 데이터가 생길 때 그 때 재정의하는 코드를 작성한다.
+                while (true) {
+                    CT_RETURN_VALUE return_value_for_playerHouseMap = this->player->ctrlToMovePlayer(this->playerHouseMap);
+                }
                 System_Message::System_coming_soon_service();
                 break;
             default: // 주변에 들어갈 건물이 없을 경우
@@ -91,6 +96,8 @@ void GameScreen::Run() {
         std::cout << this->gameMainMap->gameMapManager->playerPointer->getX() - 18 << " : " << this->gameMainMap->gameMapManager->playerPointer->getY() - 6 << "    ";
 
         Gotoxy(85, 4);
-        std::cout << this->player->mapTravelDistance_X << " : " << this->player->mapTravelDistance_Y << "   ";
+        std::cout << this->gameMainMap->gameMapManager->get_mapTravelDistance_X() << " : " << this->gameMainMap->gameMapManager->get_mapTravelDistance_Y() << "   ";
+
+        Sleep(10);
     }
 }
