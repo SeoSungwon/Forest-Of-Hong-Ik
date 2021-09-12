@@ -45,7 +45,7 @@ public:
 	}
 
 	// 맵 출력 함수
-	void printGameMap(const int start_x, const int end_x, const int start_y, const int end_y);
+	void printGameMap();
 
 	// 맵 저장 함수
 	// true : 다음 코드를 사용할 수 있다. / false : 다음 코드를 사용할 수 없다.
@@ -78,7 +78,7 @@ GetGameMapManager::GetGameMapManager(std::string file_name, std::string file_dat
 	this->file_data_name = file_data_name;
 
 	// 배열 초기화(공기로 채우기)
-	for (int array_y = 0; array_y < TEXT_MAP_FILE_SIZE_Y; array_y++) {
+	for (int array_y = 0; array_y < TEXT_MAP_FILE_SIZE_Y; array_y++) { 
 		for (int array_x = 0; array_x < TEXT_MAP_FILE_SIZE_X; array_x++) {
 			this->Map[array_y][array_x] = MAP_TYPE::AIR;
 		}
@@ -221,7 +221,13 @@ int GetGameMapManager::get_mapTravelDistance_Y() {
 	return this->mapTravelDistance_Y;
 }
 
-void GetGameMapManager::printGameMap(const int start_x, const int end_x, const int start_y, const int end_y) {
+void GetGameMapManager::printGameMap() {
+	const int start_x = this->mapTravelDistance_X;
+	const int end_x =   this->mapTravelDistance_X + this->game_map_view_size_x;
+
+	const int start_y = this->mapTravelDistance_Y;
+	const int end_y =   this->mapTravelDistance_Y + this->game_map_view_size_y;
+
 	int mapY = 1;
 
 	for (int i = this->map_top_left_corner_y + start_y; i < this->map_top_left_corner_y + end_y; i++) {
@@ -294,11 +300,11 @@ bool GetGameMapManager::Check_player_hits_obstacle(const int direction) {
 			return true;
 		}
 		// 농사 가능한 밭을 갈려고(짓밟을려고) 할 때 지나갈 수 있으며(true 반환) "그 땅은 일반 땅으로 바꾼다".
-		/*else if (mapObject == MAP_TYPE::ABLE_FARMING_LAND) {
+		else if (mapObject == MAP_TYPE::ABLE_FARMING_LAND) {
 			this->Map[this->playerPointer->getY() + add_y][this->playerPointer->getX() + add_x]
 				= MAP_TYPE::ABLE_FARMING_LAND;
 			return true;
-		}*/
+		}
 		// 그 이외의 것은 못 지나간다(false반환)
 		else {
 			return false;

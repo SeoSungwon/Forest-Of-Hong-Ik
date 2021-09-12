@@ -26,13 +26,10 @@ private: // private functions
     void drawPlayer(GameMap* specific_map, MAP_TYPE player_eType);
 
 public:
-    Player() {
-    }
+    Player() {}
 
     // return : true -> continue / false -> nothing
     CT_RETURN_VALUE ctrlToMovePlayer(GameMap *specific_map);
-
-    void printMap(GameMap *specific_map);
 };
 
 void Player::Move_map_with_player_x(GameMap *specific_map, const int append_map_print_interval_x) {
@@ -69,7 +66,7 @@ bool Player::Checking_final(const int direction, const int append_x, const int a
         break;
     }
     /* ¸Ê Ãâ·Â */
-    this->printMap(specific_map);
+    specific_map->gameMapManager->printGameMap();
 
     return true;
 }
@@ -118,22 +115,4 @@ CT_RETURN_VALUE Player::ctrlToMovePlayer(GameMap *specific_map) {
     }
 
     return CT_RETURN_VALUE::R_NOTHING;
-}
-
-void Player::printMap(GameMap *specific_map) {
-    // pt = parameter
-    const int pt_StartX = specific_map->gameMapManager->get_mapTravelDistance_X();
-    const int pt_EndX = 
-        specific_map->gameMapManager->get_mapTravelDistance_X() + specific_map->gameMapManager->game_map_view_size_x;
-   
-    const int pt_StartY = specific_map->gameMapManager->get_mapTravelDistance_Y();
-    const int pt_EndY = 
-        specific_map->gameMapManager->get_mapTravelDistance_Y() + specific_map->gameMapManager->game_map_view_size_y;
-
-    specific_map->gameMapManager->printGameMap(
-        pt_StartX,
-        pt_EndX,
-        pt_StartY,
-        pt_EndY
-    );
 }

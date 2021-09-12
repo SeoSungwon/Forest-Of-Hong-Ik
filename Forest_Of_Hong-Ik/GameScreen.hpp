@@ -12,10 +12,10 @@
 class GameScreen {
 private:
     // 메인 게임 맵
-    GameMap *gameMainMap;
+    GameMap* gameMainMap;
 
     // 플레이어 집안 맵
-    GameMap *playerHouseMap;
+    GameMap* playerHouseMap;
 
     // 플레이어 설정
     Player* player;
@@ -26,7 +26,7 @@ private:
 public:
     GameScreen() {
         // 맵 설정
-        this->gameMainMap =    new GameMainMap();
+        this->gameMainMap = new GameMainMap();
         this->playerHouseMap = new PlayerHouseMap();
 
         // 플레이어 초기 설정
@@ -47,16 +47,14 @@ public:
 
 void GameScreen::Run() {
     // 처음 맵 출력
-    this->gameMainMap->gameMapManager->printGameMap(
-        0, this->gameMainMap->gameMapManager->game_map_view_size_x, 0, this->gameMainMap->gameMapManager->game_map_view_size_y
-    );
+    this->gameMainMap->gameMapManager->printGameMap();
 
     while (true) {
         // 플레이어 이동
         CT_RETURN_VALUE return_value_for_gameMainMap = this->player->ctrlToMovePlayer(this->gameMainMap);
-        
+
         if (return_value_for_gameMainMap == CT_RETURN_VALUE::R_CONTINUE) continue;
-        else if (return_value_for_gameMainMap == CT_RETURN_VALUE::R_EXIT) break;
+        else if (return_value_for_gameMainMap == CT_RETURN_VALUE::R_EXIT) return;
 
         // 구조물에 들어갈 수 있는 로직 만들기
         constexpr auto ENTER_BUILDING_KEY = VK_CONTROL;
@@ -70,10 +68,24 @@ void GameScreen::Run() {
                 }
                 // 플레이어는 움직이는 로직을 담당하므로 재정의 할 필요가 없다.
                 // 플레이어에 대한 데이터가 생길 때 그 때 재정의하는 코드를 작성한다.
+
+                // 맵 출력
+                this->playerHouseMap->gameMapManager->printGameMap();
+
                 while (true) {
                     CT_RETURN_VALUE return_value_for_playerHouseMap = this->player->ctrlToMovePlayer(this->playerHouseMap);
+
+                    if (return_value_for_playerHouseMap == CT_RETURN_VALUE::R_CONTINUE) continue;
+                    else if (return_value_for_playerHouseMap == CT_RETURN_VALUE::R_EXIT) break;
                 }
-                System_Message::System_coming_soon_service();
+
+                // 플레이어가 나오면 playerHouseMap에 대한 데이터를 저장한다.
+                if (this->playerHouseMap->gameMapManager->saveGameMapAndData() == false) {
+                    exit(1);
+                }
+
+                // gameMainMap을 출력해준다.
+                this->gameMainMap->gameMapManager->printGameMap();
                 break;
             default: // 주변에 들어갈 건물이 없을 경우
                 System_Message::System_There_is_not_building_near_player();
@@ -89,7 +101,7 @@ void GameScreen::Run() {
 
             // 다시 출력
             Screen::GameInterfaceScreen();
-            this->player->printMap(gameMainMap);
+            this->gameMainMap->gameMapManager->printGameMap();
         }
 
         Gotoxy(85, 2);
