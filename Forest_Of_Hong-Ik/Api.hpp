@@ -1,8 +1,12 @@
 ﻿
 #pragma once
 
+#pragma comment(linker, "/SUBSYSTEM:CONSOLE")
+#pragma comment(lib, "gdiplus.lib")
+
 #include <iostream>
 #include <Windows.h>
+#include <gdiplus.h>
 #include <string>
 #include <time.h>
 #include <conio.h>

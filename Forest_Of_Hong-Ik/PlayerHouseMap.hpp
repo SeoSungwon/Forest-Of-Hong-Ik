@@ -20,7 +20,7 @@ public:
 		constexpr auto map_top_left_corner_y = 5;
 		
 		constexpr auto game_map_view_size_x = 39;
-		constexpr auto game_map_view_size_y = 19;
+		constexpr auto game_map_view_size_y = 22;
 
 		// 포인터 클래스 초기화
 		gameMapManager = new GetGameMapManager(

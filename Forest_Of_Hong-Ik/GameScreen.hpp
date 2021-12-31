@@ -32,7 +32,8 @@ public:
         // 플레이어 초기 설정
         this->player = new Player();
 
-        ConsoleSize(GAME_SCREEN_X, GAME_SCREEN_Y);
+        // ConsoleSize(GAME_SCREEN_X, GAME_SCREEN_Y);
+        ConsoleSize(200, 50);
 
         Screen::GameInterfaceScreen();
     } ~GameScreen() {
@@ -49,12 +50,32 @@ void GameScreen::Run() {
     // 처음 맵 출력
     this->gameMainMap->gameMapManager->printGameMap();
 
+    auto lamda_print_player_information = [=]() {
+        // 플레이어 정보 출력
+        Gotoxy(83, 1);
+        cout << "< 플레이어 정보 >";
+
+        Gotoxy(85, 3);
+        cout << "· 체력 : ";
+        Gotoxy(85, 5);
+        cout << "· 배부름 : ";
+        Gotoxy(85, 7);
+        cout << "· 피로도 : ";
+    };
+
+    lamda_print_player_information();
+
     while (true) {
         // 플레이어 이동
         CT_RETURN_VALUE return_value_for_gameMainMap = this->player->ctrlToMovePlayer(this->gameMainMap);
 
         if (return_value_for_gameMainMap == CT_RETURN_VALUE::R_CONTINUE) continue;
-        else if (return_value_for_gameMainMap == CT_RETURN_VALUE::R_EXIT) return;
+        else if (return_value_for_gameMainMap == CT_RETURN_VALUE::R_EXIT) {
+            if (this->gameMainMap->gameMapManager->saveGameMapAndData() == true) {
+                exit(1);
+            }
+            else exit(1);
+        }
 
         // 구조물에 들어갈 수 있는 로직 만들기
         constexpr auto ENTER_BUILDING_KEY = VK_CONTROL;
@@ -96,19 +117,14 @@ void GameScreen::Run() {
         constexpr auto OPEN_POINTER_LIST_KEY = VK_MENU; // It is Alt Key
         if (GetAsyncKeyState(OPEN_POINTER_LIST_KEY) & 0x8000) {
             this->pointerListScreen.Run(
-                this->gameMainMap->gameMapManager->playerPointer->getX(), this->gameMainMap->gameMapManager->playerPointer->getY()
+                this->gameMainMap->gameMapManager->playerPointer->getX(), 
+                this->gameMainMap->gameMapManager->playerPointer->getY()
             );
 
             // 다시 출력
             Screen::GameInterfaceScreen();
             this->gameMainMap->gameMapManager->printGameMap();
         }
-
-        Gotoxy(85, 2);
-        std::cout << this->gameMainMap->gameMapManager->playerPointer->getX() - 18 << " : " << this->gameMainMap->gameMapManager->playerPointer->getY() - 6 << "    ";
-
-        Gotoxy(85, 4);
-        std::cout << this->gameMainMap->gameMapManager->get_mapTravelDistance_X() << " : " << this->gameMainMap->gameMapManager->get_mapTravelDistance_Y() << "   ";
 
         Sleep(10);
     }

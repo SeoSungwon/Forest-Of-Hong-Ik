@@ -8,12 +8,49 @@
 constexpr auto TEXT_MAP_FILE_SIZE_X = 400;
 constexpr auto TEXT_MAP_FILE_SIZE_Y = 200;
 
-enum MAP_TYPE : int { // Player : 5 ~ 8
+enum MAP_TYPE{ // Player : 5 ~ 8
 	/*OBJECT*/AIR, LAND, ABLE_FARMING_LAND, FENCE, WALL, PLAYER_UP, PLAYER_DOWN, PLAYER_LEFT, PLAYER_RIGHT, PLAYER_HOUSE, PLAYER_BOX,
-	/*ANIMALS*/PIG, CHICKEN, COW, DUCK,
-	/*VEGETABLE*/PEPPER, CUCUMBER, EGGPLANT, CARROT, DAIKON, SPRING_ONION, TOMATO,
-	/*FRUIT*/BANANA, PEACH, APPLE, MANDARIN, GRAPE, PERSIMMON
+	/*ANIMALS*/ANIMALS,
+	/*VEGETABLE*/VEGETABLE,
+	/*FRUIT*/FRUIT
 };
+
+
+namespace MAP__TYPE {
+	// 맵 구조물
+	enum class MAP_OBJECT_TYPE {
+		AIR = 0,
+		LAND = 1,
+		ABLE_FARMING_LAND = 2,
+		FENCE = 3,
+		WALL = 4,
+	};
+	// 플레이어 시선 방향
+	enum class PLAYER_DIRECTION_TYPE {
+		PLAYER_UP = 'u',
+		PLAYER_DOWN = 'd',
+		PLAYER_LEFT = 'l',
+		PLAYER_RIGHT = 'r'
+	};
+	// 플레이어에 대한 구조물
+	enum class OBJECT_FOR_PLAYER_TYPE {
+		
+	};
+	// 농장 : 동물들
+	enum class FARM_ANIMALS {
+
+	};
+	// 농장 : 채소들
+	enum class FARM_VEGETABLES {
+
+	};
+	// 농장 : 과일들
+	enum class FARM_FURITS {
+
+	};
+};
+
+
 
 class GetGameMapManager {
 private:

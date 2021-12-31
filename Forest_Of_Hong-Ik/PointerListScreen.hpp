@@ -23,14 +23,8 @@ private:
     void printScreen() {
         Screen::GameEmptyScreen();
 
-        const string strTitle = "Point List";
-        const int strTitlePosX = GAME_SCREEN_X / 2 - strTitle.length() / 2;
-        const int strTitlePosY = 2;
-
-        Gotoxy(strTitlePosX, strTitlePosY); cout << strTitle;
-
-        Gotoxy(2, strTitlePosY); cout << "=========================================";
-        Gotoxy(strTitlePosX + strTitle.length() + 2, strTitlePosY); cout << "=========================================";
+        Gotoxy(2, 2); cout << "====================================================";
+        cout << " Point List "; cout << "====================================================";
 
         constexpr auto line_spacing = 25;
 
